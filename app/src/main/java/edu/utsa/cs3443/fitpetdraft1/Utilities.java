@@ -13,7 +13,7 @@ public class Utlities {
 
         ImageIcon icon = new ImageIcon("pet1.png");
         int n = JOptionPane.showOptionDialog(null,
-                "Welcome to the Pet Manu! Please select an option below.",
+                "Welcome to the Pet Menu! Please select an option below.",
                 "Pet Main Menu",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.PLAIN_MESSAGE,
