@@ -20,10 +20,6 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
 
-            //test test test
-            // sofia test 2
-            // test 4
-            // test 5
         });
     }
 }
