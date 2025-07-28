@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         sleepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, SleepActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         waterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WaterActivity.class);
+                startActivity(intent);
 
             }
 

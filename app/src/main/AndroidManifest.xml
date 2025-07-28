@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitPetDraft1">
         <activity
-            android:name=".WaterActivity"
+            android:name=".SleepActivity"
             android:exported="false" />
         <activity
-            android:name=".SleepActivity"
+            android:name=".WaterActivity"
             android:exported="false" />
         <activity
             android:name=".ExerciseActivity"
