@@ -46,7 +46,6 @@ public class Main {
         System.out.println(pet);
     }
 
-    // Methods for Android Activities to show welcome/status messages
     public static String getWelcomeMessage() {
         if (pet != null) {
             return "Welcome to FitPet! " + pet.toString();

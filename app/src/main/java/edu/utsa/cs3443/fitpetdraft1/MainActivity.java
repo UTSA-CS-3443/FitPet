@@ -40,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
         exerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, ExerciseActivity.class);
+                startActivity(intent);
             }
+
         });
 
         waterButton.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
             }
+
         });
 
 
