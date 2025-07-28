@@ -12,6 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitPetDraft1">
         <activity
+            android:name=".WaterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SleepActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FoodActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
