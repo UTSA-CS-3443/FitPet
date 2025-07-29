@@ -1,5 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,117 +8,117 @@
         android:id="@+id/homeButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:drawableTop="@drawable/home"
-        android:background="@drawable/square_button_background"
-        app:backgroundTint="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/square_button_background"
+        android:drawableTop="@drawable/home"
+        app:backgroundTint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/sleepCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="32dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
-        android:layout_margin="32dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/foodButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="24dp">
+            android:layout_height="481dp"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sleep"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="#40E0D0"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="Sleep"
+                android:textColor="#40E0D0"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/square_button_background"
-                android:padding="16dp"
-                android:layout_marginBottom="20dp">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/sleepMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="You haven't met your sleep goal yet!"
-                    android:textSize="16sp"
-                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:textColor="#666666"/>
+                    android:gravity="center"
+                    android:text="You haven't met your sleep goal yet!"
+                    android:textColor="#666666"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enter the number of hours you slept last night."
-                android:textSize="14sp"
-                android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginBottom="24dp"
-                android:textColor="#888888"/>
+                android:gravity="center"
+                android:text="Enter the number of hours you slept last night."
+                android:textColor="#888888"
+                android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/dogImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/dog"
+                android:id="@+id/dogSleep"
+                android:layout_width="141dp"
+                android:layout_height="136dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="0dp"
+                android:src="@drawable/sleep" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:text="Hours slept:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="Hours slept:"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/sleepInput"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1.5"
-                    android:inputType="number"
-                    android:hint="8"
                     android:background="@drawable/square_button_background"
-                    android:padding="12dp"/>
+                    android:hint="8"
+                    android:inputType="number"
+                    android:padding="12dp" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/enterButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:background="@drawable/square_button_background"
                 android:text="Enter"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:background="@drawable/square_button_background"
-                app:backgroundTint="#40E0D0"
-                android:textColor="@android:color/white"
-                android:layout_gravity="center"/>
+                app:backgroundTint="#40E0D0" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -128,7 +127,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/lettuce3"
+        android:drawableTop="@drawable/ICONfood"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +141,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/sleep"
+        android:drawableTop="@drawable/ICONsleep"
         app:backgroundTint="#40E0D0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,7 +155,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/dumbell"
+        android:drawableTop="@drawable/ICONexercise"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -170,7 +169,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/water"
+        android:drawableTop="@drawable/ICONwater"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
