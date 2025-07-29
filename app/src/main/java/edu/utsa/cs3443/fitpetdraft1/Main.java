@@ -15,7 +15,7 @@ public class Main {
         testApp();
     }
 
-    private static void initializeDefaults() {
+    static void initializeDefaults() {
         userGoals = new UserGoals(64, 8, 300, 2000);
 
         pet = new Pet("name");
@@ -32,8 +32,8 @@ public class Main {
         System.out.println("\n--- Testing App Functionality ---");
 
         // Test adding some sample data
-        addFood("Apple", 0, 25, 0);
-        addFood("Pasta", 20, 30, 25);
+        addFood("Apple", 50, 0, 25, 0);
+        addFood("Pasta", 200, 20, 30, 25);
         addExercise("Running", 200);
         addExercise("StairMaster", 150);
         addSleep(8);
@@ -81,10 +81,10 @@ public class Main {
     }
 
     //-----------------FOOD/EXERCISE/SLEEP/WATER----------------------------------------------------------------------------------------
-    public static boolean addFood(String name, int fats, int carbs, int protein) {
+    public static boolean addFood(String name, int calories, int fats, int carbs, int protein) {
         if (currentDay == null) return false;
 
-        Food food = new Food(name, fats, carbs, protein);
+        Food food = new Food(name, calories, fats, carbs, protein);
         currentDay.getFoodLog().add(food);
         updatePetMood();
         return true;

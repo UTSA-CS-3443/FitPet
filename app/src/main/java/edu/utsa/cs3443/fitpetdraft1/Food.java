@@ -5,17 +5,28 @@ public class Food implements GoalTracker {
     private int fats;
     private int carbs;
     private int protein;
+    private int calories;
 
-
-    public Food(String name, int fats, int carbs, int protein) {
+    // calories only constructor
+    public Food(String name, int calories) {
         this.name = name;
+        this.calories = calories;
+        this.fats = 0;
+        this.carbs = 0;
+        this.protein = 0;
+    }
+
+    // constructor with macros
+    public Food(String name, int calories, int fats, int carbs, int protein) {
+        this.name = name;
+        this.calories = calories;
         this.fats = fats;
         this.carbs = carbs;
         this.protein = protein;
     }
 
     public int getCalories() {
-        return (fats * 9) + (carbs * 4) + (protein * 4);
+        return calories;
     }
 
     @Override
@@ -25,7 +36,11 @@ public class Food implements GoalTracker {
 
     @Override
     public String toString() {
-        return name + " | Fats: " + fats + "g, Carbs: " + carbs + "g, Protein: " + protein + "g, Calories: " + getCalories();
+        if (fats == 0 && carbs == 0 && protein == 0) {
+            return name + " | Calories: " + calories;
+        } else {
+            return name + " | Fats: " + fats + "g, Carbs: " + carbs + "g, Protein: " + protein + "g, Calories: " + calories;
+        }
     }
 }
 
