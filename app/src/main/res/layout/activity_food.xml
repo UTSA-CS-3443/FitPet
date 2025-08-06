@@ -7,7 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".FoodActivity">
 
-
+    <Button
+        android:id="@+id/homeButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/square_button_background"
+        android:drawableTop="@drawable/home"
+        app:backgroundTint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -35,7 +45,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="700dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -48,36 +58,80 @@
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="28sp"
                 android:textStyle="bold" />
-            <EditText
-                android:id="@+id/foodNameInput"
-                android:hint="Food name"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/square_button_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/currentCaloriesText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Current Calories: {currentCalories}"
+                    android:textColor="#666666"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/caloriesLeftText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:text="Calories Left: {caloriesLeft}"
+                    android:textColor="#666666"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/foodNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="*Food name" />
+
+            <EditText
+                android:id="@+id/caloriesInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="*Calories"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/fatsInput"
-                android:hint="Fats (g)"
-                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Fats (g)"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/carbsInput"
-                android:hint="Carbs (g)"
-                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Carbs (g)"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/proteinInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:hint="Protein (g)"
                 android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="173dp"
+                app:srcCompat="@drawable/eat" />
 
             <Button
                 android:id="@+id/saveFoodButton"
@@ -95,7 +149,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/lettuce3"
+        android:drawableTop="@drawable/iconfood"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -109,7 +163,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/sleep"
+        android:drawableTop="@drawable/iconsleep"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +177,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/dumbell"
+        android:drawableTop="@drawable/iconexercise"
         android:drawablePadding="-100dp"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -138,7 +192,7 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
-        android:drawableTop="@drawable/water"
+        android:drawableTop="@drawable/iconwater"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

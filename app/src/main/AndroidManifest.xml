@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitPetDraft1">
         <activity
+            android:name=".GoalsActivity"
+            android:exported="false" />
+        <activity
             android:name=".SleepActivity"
             android:exported="false" />
         <activity
