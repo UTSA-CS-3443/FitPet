@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,13 +37,50 @@ public class ExerciseActivity extends AppCompatActivity {
 
         // enter button
         enterButton.setOnClickListener(v -> {
-            String type = typeInput.getText().toString();
-            String duration = durationInput.getText().toString();
-            String caloriesStr = caloriesInput.getText().toString();
+            String type = typeInput.getText().toString().trim();
+            String durationStr = durationInput.getText().toString().trim();
+            String caloriesStr = caloriesInput.getText().toString().trim();
 
-            int calories = caloriesStr.isEmpty() ? 0 : Integer.parseInt(caloriesStr);
+            // validation
+            if (type.isEmpty()) {
+                Toast.makeText(this, "Please enter exercise type", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (durationStr.isEmpty()) {
+                Toast.makeText(this, "Please enter duration", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (caloriesStr.isEmpty()) {
+                Toast.makeText(this, "Please enter calories burned", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            Main.addExercise(type + " (" + duration + ")", calories);
+            int duration;
+            int calories;
+            try {
+                duration = Integer.parseInt(durationStr);
+                if (duration >= 1440) {
+                    Toast.makeText(this, "Duration cannot exceed 24 hours", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid duration input", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            try {
+                calories = Integer.parseInt(caloriesStr);
+                if (calories >= 5000) {
+                    Toast.makeText(this, "Calories burned too seem too high", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid calories burned input", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Main.addExercise(type + " (" + duration + " mins)", calories);
+            Toast.makeText(this, "Exercise added successfully!", Toast.LENGTH_SHORT).show();
 
             typeInput.setText("");
             durationInput.setText("");
