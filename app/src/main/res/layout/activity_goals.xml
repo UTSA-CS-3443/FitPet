@@ -175,16 +175,12 @@
 
             <Button
                 android:id="@+id/enterButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/square_button_background"
                 android:text="Save Goals"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:backgroundTint="#40E0D0" />
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
@@ -216,14 +212,11 @@
 
             <Button
                 android:id="@+id/saveProgressButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="56dp"
-                android:background="@drawable/square_button_background"
                 android:text="Save Today's Progress"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:backgroundTint="#4CAF50" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

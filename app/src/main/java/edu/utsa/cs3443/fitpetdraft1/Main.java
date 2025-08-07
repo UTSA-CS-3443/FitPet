@@ -80,6 +80,13 @@ public class Main {
         return message.toString();
     }
 
+    public static boolean addFood(String name, int calories) {
+        if (currentDay == null) return false;
+        Food food = new Food(name, calories);
+        currentDay.getFoodLog().add(food);
+        updatePetMood();
+        return true;
+    }
 
     public static boolean addFood(String name, int calories, int fats, int carbs, int protein) {
         if (currentDay == null) return false;

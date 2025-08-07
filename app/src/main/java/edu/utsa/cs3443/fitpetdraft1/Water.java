@@ -1,6 +1,6 @@
 package edu.utsa.cs3443.fitpetdraft1;
 
-public class Water implements GoalTracker {
+public class Water {
     private int ounces;
 
     public Water(int ounces) {
@@ -9,11 +9,6 @@ public class Water implements GoalTracker {
 
     public int getOunces() {
         return ounces;
-    }
-
-    @Override
-    public boolean goalMet(UserGoals goals) {
-        return ounces >= goals.getWaterGoalOz();
     }
 
     @Override

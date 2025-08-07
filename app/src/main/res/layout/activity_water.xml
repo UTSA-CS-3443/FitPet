@@ -40,8 +40,20 @@
                 android:layout_height="wrap_content"
                 android:text="Water"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/waterMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="You haven't met your water goal yet!"
+                android:textColor="#666666"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,9 +107,9 @@
             <Button
                 android:id="@+id/addWaterButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:layout_marginTop="16dp"
-                android:text="Enter" />
+                android:text="Save Water" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -150,7 +162,7 @@
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
         android:drawableTop="@drawable/iconwater"
-        app:backgroundTint="@android:color/white"
+        app:backgroundTint="@android:color/holo_blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.952"

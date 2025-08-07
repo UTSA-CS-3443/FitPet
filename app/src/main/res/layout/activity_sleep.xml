@@ -41,7 +41,7 @@
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="Sleep"
-                android:textColor="#40E0D0"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="0dp"
                 android:gravity="center"
                 android:text="Enter the number of hours you slept last night."
                 android:textColor="#888888"
@@ -76,8 +76,8 @@
 
             <ImageView
                 android:id="@+id/dogSleep"
-                android:layout_width="141dp"
-                android:layout_height="136dp"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="0dp"
                 android:src="@drawable/sleep" />
@@ -86,23 +86,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="12dp"
                     android:text="Hours slept:"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/sleepInput"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="48dp"
-                    android:layout_weight="1.5"
                     android:background="@drawable/square_button_background"
+                    android:gravity="center"
                     android:hint="8"
                     android:inputType="number"
                     android:padding="12dp" />
@@ -110,15 +110,10 @@
 
             <Button
                 android:id="@+id/enterButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
-                android:background="@drawable/square_button_background"
-                android:text="Enter"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:backgroundTint="#40E0D0" />
+                android:text="Save Sleep" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -142,7 +137,7 @@
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
         android:drawableTop="@drawable/iconsleep"
-        app:backgroundTint="#40E0D0"
+        app:backgroundTint="@android:color/holo_blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.329"

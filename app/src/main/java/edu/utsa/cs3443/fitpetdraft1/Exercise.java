@@ -1,6 +1,6 @@
 package edu.utsa.cs3443.fitpetdraft1;
 
-public class Exercise implements GoalTracker {
+public class Exercise {
     private String name;
     private int caloriesBurned;
 
@@ -11,11 +11,6 @@ public class Exercise implements GoalTracker {
 
     public int getCaloriesBurned() {
         return caloriesBurned;
-    }
-
-    @Override
-    public boolean goalMet(UserGoals goals) {
-        return caloriesBurned >= goals.getExerciseGoalCalories();
     }
 
     @Override
