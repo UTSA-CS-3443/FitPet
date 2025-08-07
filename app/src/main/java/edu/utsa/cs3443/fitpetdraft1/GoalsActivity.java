@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -84,6 +85,7 @@ public class GoalsActivity extends AppCompatActivity {
             }
             try {
                 DayManager.saveCurrentDayToFile(this);
+                Toast.makeText(this, "Today's progress saved!", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

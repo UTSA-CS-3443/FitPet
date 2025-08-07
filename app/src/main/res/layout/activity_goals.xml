@@ -13,6 +13,7 @@
         android:layout_width="98dp"
         android:layout_height="72dp"
         android:translationX="650px"
+        android:translationY="147px"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/peak"
         tools:layout_editor_absoluteX="34dp" />
