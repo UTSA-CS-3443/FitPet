@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,12 +49,45 @@ public class FoodActivity extends AppCompatActivity {
             String carbsStr = carbsInput.getText().toString();
             String proteinStr = proteinInput.getText().toString();
 
-            int calories = caloriesStr.isEmpty() ? 0 : Integer.parseInt(caloriesStr);
-            int fats = fatsStr.isEmpty() ? 0 : Integer.parseInt(fatsStr);
-            int carbs = carbsStr.isEmpty() ? 0 : Integer.parseInt(carbsStr);
-            int protein = proteinStr.isEmpty() ? 0 : Integer.parseInt(proteinStr);
+            // validation
+            if (name.isEmpty()) {
+                Toast.makeText(this, "Please enter a food name", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            Main.addFood(name, calories, fats, carbs, protein);
+            if (caloriesStr.isEmpty()) {
+                Toast.makeText(this, "Please enter calories", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int calories;
+            int fats = 0;
+            int carbs = 0;
+            int protein = 0;
+
+            // validate calories
+            try {
+                calories = Integer.parseInt(caloriesStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid calories input", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // validate macros
+            try {
+                if (!fatsStr.isEmpty()) {
+                    fats = Integer.parseInt(fatsStr);
+                }
+                if (!carbsStr.isEmpty()) {
+                    carbs = Integer.parseInt(carbsStr);
+                }
+                if (!proteinStr.isEmpty()) {
+                    protein = Integer.parseInt(proteinStr);
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid macro input", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             // check if macros entered
             if (fatsStr.isEmpty() && carbsStr.isEmpty() && proteinStr.isEmpty()) {
@@ -61,6 +95,8 @@ public class FoodActivity extends AppCompatActivity {
             } else {
                 Main.addFood(name, calories, fats, carbs, protein);
             }
+
+            Toast.makeText(this, "Food added successfully!", Toast.LENGTH_SHORT).show();
 
             foodNameInput.setText("");
             caloriesInput.setText("");
