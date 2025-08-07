@@ -68,14 +68,14 @@ public class GoalsActivity extends AppCompatActivity {
             Main.initializePet(petName);
             Main.initializeUserGoals(waterGoal, sleepGoal, exerciseGoal, calorieGoal);
 
-            // go back to main
+
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         });
 
-        // manual save progress
+
         saveProgressButton.setOnClickListener(v -> {
             try {
                 DayManager.checkAndHandleNewDay(this);
@@ -89,7 +89,7 @@ public class GoalsActivity extends AppCompatActivity {
             }
         });
 
-        // nav buttons
+
         Button foodButton = findViewById(R.id.foodButton);
         Button sleepButton = findViewById(R.id.sleepButton);
         Button exerciseButton = findViewById(R.id.exerciseButton);

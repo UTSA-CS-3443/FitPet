@@ -27,11 +27,10 @@ public class WaterActivity extends AppCompatActivity {
             finish();
         });
 
-        // update display
         int totalWater = Main.getTotalWaterToday();
         totalWaterText.setText(totalWater + " oz");
 
-        // add water button
+
         addWaterButton.setOnClickListener(v -> {
             String waterStr = addWaterInput.getText().toString();
             int ounces = waterStr.isEmpty() ? 0 : Integer.parseInt(waterStr);
@@ -39,12 +38,12 @@ public class WaterActivity extends AppCompatActivity {
             Main.addWater(ounces);
             addWaterInput.setText("");
 
-            // update display
+
             int newTotal = Main.getTotalWaterToday();
             totalWaterText.setText(newTotal + " oz");
         });
 
-        // nav buttons
+
         Button foodButton = findViewById(R.id.foodButton);
         Button sleepButton = findViewById(R.id.sleepButton);
         Button exerciseButton = findViewById(R.id.exerciseButton);

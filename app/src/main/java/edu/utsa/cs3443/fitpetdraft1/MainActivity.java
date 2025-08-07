@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // checks if user completed initial setup by looking for saved data in prefs
-    // pet name and calorie goal set
     private boolean areGoalsSet() {
         return prefs.contains("petName") && prefs.getInt("calorieGoal", -1) != -1;
     }

@@ -80,7 +80,7 @@ public class Main {
         return message.toString();
     }
 
-    //-----------------FOOD/EXERCISE/SLEEP/WATER----------------------------------------------------------------------------------------
+
     public static boolean addFood(String name, int calories, int fats, int carbs, int protein) {
         if (currentDay == null) return false;
 

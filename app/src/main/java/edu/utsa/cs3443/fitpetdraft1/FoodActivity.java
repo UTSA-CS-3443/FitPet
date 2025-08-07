@@ -26,7 +26,7 @@ public class FoodActivity extends AppCompatActivity {
         Button saveFoodButton = findViewById(R.id.saveFoodButton);
         Button homeButton = findViewById(R.id.homeButton);
 
-        // update display
+
         int currentCalories = Main.getTotalCaloriesToday();
         int goalCalories = Main.getUserGoals().getFoodGoalCalories();
         int caloriesLeft = goalCalories - currentCalories;
@@ -68,7 +68,7 @@ public class FoodActivity extends AppCompatActivity {
             caloriesLeftText.setText("Calories Left: " + newCaloriesLeft);
         });
 
-        // nav buttons
+
         Button sleepButton = findViewById(R.id.sleepButton);
         Button exerciseButton = findViewById(R.id.exerciseButton);
         Button waterButton = findViewById(R.id.waterButton);
