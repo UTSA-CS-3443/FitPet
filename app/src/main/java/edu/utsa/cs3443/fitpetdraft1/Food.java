@@ -1,6 +1,6 @@
 package edu.utsa.cs3443.fitpetdraft1;
 
-public class Food implements GoalTracker {
+public class Food {
     private String name;
     private int fats;
     private int carbs;
@@ -27,11 +27,6 @@ public class Food implements GoalTracker {
 
     public int getCalories() {
         return calories;
-    }
-
-    @Override
-    public boolean goalMet(UserGoals goals) {
-        return getCalories() <= goals.getFoodGoalCalories();
     }
 
     @Override

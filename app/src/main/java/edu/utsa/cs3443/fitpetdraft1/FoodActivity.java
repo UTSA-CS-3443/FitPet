@@ -55,6 +55,13 @@ public class FoodActivity extends AppCompatActivity {
 
             Main.addFood(name, calories, fats, carbs, protein);
 
+            // check if macros entered
+            if (fatsStr.isEmpty() && carbsStr.isEmpty() && proteinStr.isEmpty()) {
+                Main.addFood(name, calories);
+            } else {
+                Main.addFood(name, calories, fats, carbs, protein);
+            }
+
             foodNameInput.setText("");
             caloriesInput.setText("");
             fatsInput.setText("");
