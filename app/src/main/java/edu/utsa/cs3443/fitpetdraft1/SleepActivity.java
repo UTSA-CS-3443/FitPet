@@ -5,6 +5,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SleepActivity extends AppCompatActivity {
@@ -36,10 +38,28 @@ public class SleepActivity extends AppCompatActivity {
 
         // enter button
         enterButton.setOnClickListener(v -> {
-            String hoursStr = sleepInput.getText().toString();
-            int hours = hoursStr.isEmpty() ? 0 : Integer.parseInt(hoursStr);
+            String hoursStr = sleepInput.getText().toString().trim();
+
+            // validation
+            if (hoursStr.isEmpty()) {
+                Toast.makeText(this, "Please enter hours of sleep", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int hours;
+            try {
+                hours = Integer.parseInt(hoursStr);
+                if (hours > 24) {
+                    Toast.makeText(this, "Hours cannot exceed 24", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid sleep hours", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             Main.addSleep(hours);
+            Toast.makeText(this, "Sleep hours added successfully!", Toast.LENGTH_SHORT).show();
             sleepInput.setText("");
 
             // update display
@@ -49,7 +69,7 @@ public class SleepActivity extends AppCompatActivity {
             } else {
                 sleepMessage.setText("You haven't met your sleep goal yet!");
             }
-        });;
+        });
 
         // nav buttons
         Button foodButton = findViewById(R.id.foodButton);
