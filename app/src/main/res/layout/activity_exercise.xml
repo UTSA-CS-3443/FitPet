@@ -42,7 +42,7 @@
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="Exercise"
-                android:textColor="#40E0D0"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -150,15 +150,10 @@
 
             <Button
                 android:id="@+id/enterButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
-                android:background="@drawable/square_button_background"
-                android:text="Enter"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:backgroundTint="#40E0D0" />
+                android:text="Save Exercise" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
