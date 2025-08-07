@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,14 +49,52 @@ public class GoalsActivity extends AppCompatActivity {
             String waterStr = waterGoalInput.getText().toString();
             String sleepStr = sleepGoalInput.getText().toString();
 
-            int calorieGoal = calorieStr.isEmpty() ? 2000 : Integer.parseInt(calorieStr);
-            int waterGoal = waterStr.isEmpty() ? 64 : Integer.parseInt(waterStr);
-            int sleepGoal = sleepStr.isEmpty() ? 8 : Integer.parseInt(sleepStr);
-            int exerciseGoal = 300;
-
             if (petName.isEmpty()) {
                 petName = "Zuzu";
             }
+
+            int calorieGoal;
+            int waterGoal;
+            int sleepGoal;
+
+            // validate inputs
+            if (calorieStr.isEmpty()) {
+                Toast.makeText(this, "Please enter calorie goal", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                try {
+                    calorieGoal = Integer.parseInt(calorieStr);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Invalid calorie goal", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            if (waterStr.isEmpty()) {
+                Toast.makeText(this, "Please enter water goal", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                try {
+                    waterGoal = Integer.parseInt(waterStr);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Invalid water goal", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            if (sleepStr.isEmpty()) {
+                Toast.makeText(this, "Please enter sleep goal", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                try {
+                    sleepGoal = Integer.parseInt(sleepStr);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Invalid sleep goal", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            int exerciseGoal = 300;
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("petName", petName);
@@ -67,14 +106,13 @@ public class GoalsActivity extends AppCompatActivity {
 
             Main.initializePet(petName);
             Main.initializeUserGoals(waterGoal, sleepGoal, exerciseGoal, calorieGoal);
-
+            Toast.makeText(this, "Goals saved successfully!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         });
-
 
         saveProgressButton.setOnClickListener(v -> {
             try {
@@ -84,11 +122,11 @@ public class GoalsActivity extends AppCompatActivity {
             }
             try {
                 DayManager.saveCurrentDayToFile(this);
+                Toast.makeText(this, "Progress saved successfully!", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Toast.makeText(this, "Error saving progress", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         Button foodButton = findViewById(R.id.foodButton);
         Button sleepButton = findViewById(R.id.sleepButton);

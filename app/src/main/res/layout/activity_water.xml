@@ -162,7 +162,7 @@
         android:layout_height="77dp"
         android:background="@drawable/square_button_background"
         android:drawableTop="@drawable/iconwater"
-        app:backgroundTint="@android:color/white"
+        app:backgroundTint="@android:color/holo_blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.952"
