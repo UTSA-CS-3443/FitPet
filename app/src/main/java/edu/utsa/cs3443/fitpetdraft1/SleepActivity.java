@@ -9,17 +9,37 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Sleep activity to log sleep entries and display sleep progress
+ * User is able to enter the number of hours slept and view their progress towards their sleep goal
+ * Displays functional navigational tools to Food, Exercise, Water and Home screens
+ *
+ *   @author Michael DeWitt
+ *   @author Bella Rodriguez
+ *   @author Sofia Galindo
+ *   @author Jose Ramos-Rodriguez
+ *
+ */
 public class SleepActivity extends AppCompatActivity {
 
     private TextView sleepMessage;
     private TextView totalSleepProgressText;
     private EditText sleepInput;
 
+    /**
+     * Initializes sleep screen
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
 
+        //Initilize interface
         sleepMessage = findViewById(R.id.sleepMessage);
         totalSleepProgressText = findViewById(R.id.totalSleepProgressText);
         sleepInput = findViewById(R.id.sleepInput);
@@ -28,6 +48,7 @@ public class SleepActivity extends AppCompatActivity {
 
         refreshSleepUI();
 
+        // Home button
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -35,6 +56,7 @@ public class SleepActivity extends AppCompatActivity {
             finish();
         });
 
+        // Saves sleep hours and validates
         enterButton.setOnClickListener(v -> {
             String hoursStr = sleepInput.getText().toString().trim();
 
@@ -69,6 +91,7 @@ public class SleepActivity extends AppCompatActivity {
             refreshSleepUI();
         });
 
+        // Navigation buttons
         Button foodButton = findViewById(R.id.foodButton);
         Button exerciseButton = findViewById(R.id.exerciseButton);
         Button waterButton = findViewById(R.id.waterButton);
@@ -78,11 +101,18 @@ public class SleepActivity extends AppCompatActivity {
         waterButton.setOnClickListener(v -> startActivity(new Intent(this, WaterActivity.class)));
     }
 
+    /**
+     * Refreshes page
+     */
     @Override
     protected void onResume() {
         super.onResume();
         refreshSleepUI();
     }
+
+    /**
+     * Refreshes page with user goal and current sleep hours
+     */
 
     private void refreshSleepUI() {
         int total = Main.getTotalSleepToday();

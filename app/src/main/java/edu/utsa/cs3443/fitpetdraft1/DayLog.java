@@ -2,6 +2,16 @@ package edu.utsa.cs3443.fitpetdraft1;
 
 import java.util.ArrayList;
 
+/**
+ * Holds a daily log of user input and user goals
+ * Allows user to store food, exercise, water and sleep
+ *
+ *   @author Michael DeWitt
+ *   @author Bella Rodriguez
+ *   @author Sofia Galindo
+ *   @author Jose Ramos-Rodriguez
+ *
+ */
 public class DayLog {
 
     private String date;
@@ -10,6 +20,10 @@ public class DayLog {
     private ArrayList<Sleep> sleepLog;
     private ArrayList<Exercise> exerciseLog;
 
+    /**
+     * Creates a daily log for the day
+     * @param date the date of the log
+     */
     public DayLog(String date) {
         this.date = date;
         this.foodLog = new ArrayList<>();
@@ -18,26 +32,43 @@ public class DayLog {
         this.exerciseLog = new ArrayList<>();
     }
 
-    public String getDate() {
-        return date;
-    }
-
+    /**
+     * Returns an array list of food items for the day
+     * @return the array list of items
+     */
     public ArrayList<Food> getFoodLog() {
         return foodLog;
     }
 
+    /**
+     * Returns an array list of water items for the day
+     * @return an array list of water items
+     */
     public ArrayList<Water> getWaterLog() {
         return waterLog;
     }
 
+    /**
+     * Returns an array list of sleep items for the day
+     * @return an array list of sleep items
+     */
     public ArrayList<Sleep> getSleepLog() {
         return sleepLog;
     }
 
+    /**
+     * An array list of exercise items for the day
+     * @return an array list of sleep items
+     */
     public ArrayList<Exercise> getExerciseLog() {
         return exerciseLog;
     }
 
+    /**
+     * Checks if all daily goals have been met
+     * @param goals the user's daily goals
+     * @return true if all goals have been met, false otherwise
+     */
     public boolean goalsMet(UserGoals goals) {
         int totalWater = 0;
         for (Water w : waterLog) totalWater += w.getOunces();
@@ -59,6 +90,10 @@ public class DayLog {
                 && netCalories <= goals.getFoodGoalCalories();
     }
 
+    /**
+     * Returns a formatted string of the daily log
+     * @return a formatted string of the daily log
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -87,3 +122,4 @@ public class DayLog {
         return sb.toString();
     }
 }
+

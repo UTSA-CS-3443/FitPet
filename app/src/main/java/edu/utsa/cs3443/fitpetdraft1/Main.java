@@ -2,6 +2,17 @@ package edu.utsa.cs3443.fitpetdraft1;
 
 import java.util.ArrayList;
 
+/**
+ *  The main class that connects the applications logic and state
+ *  Stores user goals, pet data and the daily log
+ *  Allows user to add new data, calculate totals and check if user daily goals are met
+ *
+ *   @author Michael DeWitt
+ *   @author Bella Rodriguez
+ *   @author Sofia Galindo
+ *   @author Jose Ramos-Rodriguez
+ *
+ */
 public class Main {
 
     static ArrayList<DayLog> allDays = new ArrayList<>();
@@ -9,72 +20,13 @@ public class Main {
     static UserGoals userGoals = null;
     static Pet pet;
 
-    public static void main(String[] args) {
-        initializeDefaults();
-        testApp();
-    }
 
-    static void initializeDefaults() {
-        userGoals = new UserGoals(64, 8, 300, 2000);
-        pet = new Pet("name");
-        currentDay = new DayLog("07/26/2025");
-        allDays.add(currentDay);
-
-        System.out.println("FitPet initialized with default values");
-        System.out.println("Goals: 64oz water, 8hrs sleep, 300 cal exercise, max 2000 cal food");
-        System.out.println("Pet: " + pet);
-    }
-
-    private static void testApp() {
-        System.out.println("\n--- Testing App Functionality ---");
-        addFood("Apple", 50, 0, 25, 0);
-        addFood("Pasta", 200, 20, 30, 25);
-        addExercise("Running", 200);
-        addExercise("StairMaster", 150);
-        addSleep(8);
-        addWater(32);
-        addWater(32);
-
-        System.out.println("\n" + currentDay);
-        System.out.println("Goals met: " + areGoalsMetConsideringExercise());
-        System.out.println(pet);
-    }
-
-    public static String getWelcomeMessage() {
-        if (pet != null) {
-            return "Welcome to FitPet! " + pet.toString();
-        }
-        return "Welcome to FitPet!";
-    }
-
-    public static String getDayStatusMessage() {
-        if (currentDay == null) {
-            return "No day started yet!";
-        }
-
-        StringBuilder message = new StringBuilder();
-        message.append("Today's Progress:\n\n");
-
-        if (userGoals != null) {
-            message.append(String.format("Water: %d/%d oz (%.1f%%)\n",
-                    getTotalWaterToday(), userGoals.getWaterGoalOz(), getWaterProgress()));
-            message.append(String.format("Sleep: %d/%d hrs (%.1f%%)\n",
-                    getTotalSleepToday(), userGoals.getSleepGoalHours(), getSleepProgress()));
-            message.append(String.format("Exercise: %d/%d cal (%.1f%%)\n",
-                    getTotalExerciseToday(), userGoals.getExerciseGoalCalories(), getExerciseProgress()));
-            message.append(String.format("Food (NET): %d/%d cal (%.1f%%)\n",
-                    getNetCaloriesToday(), userGoals.getFoodGoalCalories(),
-                    Math.min(100.0, (getNetCaloriesToday() / (double) userGoals.getFoodGoalCalories()) * 100)));
-        }
-
-        message.append("\n");
-        if (pet != null) {
-            message.append(pet.toString());
-        }
-
-        return message.toString();
-    }
-
+    /**
+     * Adds a food entry that only accepts name and calories
+     * @param name the name of this food
+     * @param calories the calories of this food
+     * @return true if there is a day, therefore adding food. Otherwise if no current day, return false
+     */
     public static boolean addFood(String name, int calories) {
         if (currentDay == null) return false;
         Food food = new Food(name, calories);
@@ -83,6 +35,15 @@ public class Main {
         return true;
     }
 
+    /**
+     * Adds a food entry that accepts name, calories and macros
+     * @param name the name of this food
+     * @param calories the calories of this food
+     * @param fats the fats of this food
+     * @param carbs the carbs of this food
+     * @param protein the protein of this food
+     * @return true if there is a day, therefore adding food. Otherwise, if no current day, return false
+     */
     public static boolean addFood(String name, int calories, int fats, int carbs, int protein) {
         if (currentDay == null) return false;
         Food food = new Food(name, calories, fats, carbs, protein);
@@ -91,6 +52,12 @@ public class Main {
         return true;
     }
 
+    /**
+     * Adds an exercise entry
+     * @param name the name of this exercise
+     * @param caloriesBurned the calories burned of this exercise
+     * @return true if there is a day, therefore adding exercise. Otherwise, if no current day, return false
+     */
     public static boolean addExercise(String name, int caloriesBurned) {
         if (currentDay == null) return false;
         Exercise exercise = new Exercise(name, caloriesBurned);
@@ -99,6 +66,11 @@ public class Main {
         return true;
     }
 
+    /**
+     * Adds sleep entry
+     * @param hours the hours of sleep
+     * @return true if there is a day, therefore adding sleep. Otherwise, if no current day, return false
+     */
     public static boolean addSleep(int hours) {
         if (currentDay == null) return false;
         Sleep sleep = new Sleep(hours);
@@ -107,6 +79,11 @@ public class Main {
         return true;
     }
 
+    /**
+     * Adds water entry
+     * @param ounces the ounces of water
+     * @return true if there is a day, therefore adding water. Otherwise, if no current day, return false
+     */
     public static boolean addWater(int ounces) {
         if (currentDay == null) return false;
         Water water = new Water(ounces);
@@ -115,14 +92,29 @@ public class Main {
         return true;
     }
 
+    /**
+     * Initializes user's daily goals
+     * @param waterOz the water ounces to be set
+     * @param sleepHours the sleep hours to be set
+     * @param exerciseCalories the exercise calories to be set
+     * @param foodCalories the food calories to be set
+     */
     public static void initializeUserGoals(int waterOz, int sleepHours, int exerciseCalories, int foodCalories) {
         userGoals = new UserGoals(waterOz, sleepHours, exerciseCalories, foodCalories);
     }
 
+    /**
+     * Initializes the pet
+     * @param name the name of the pet
+     */
     public static void initializePet(String name) {
         pet = new Pet(name);
     }
 
+    /**
+     * Starts a new day and resets day log
+     * @param date the date of this day
+     */
     public static void startNewDay(String date) {
         currentDay = new DayLog(date);
         allDays.add(currentDay);
@@ -131,28 +123,44 @@ public class Main {
         }
     }
 
+    /**
+     * Returns the current day
+     * @return the current day
+     */
     public static DayLog getCurrentDay() {
         return currentDay;
     }
 
-    public static ArrayList<DayLog> getAllDays() {
-        return allDays;
-    }
 
+    /**
+     * Returns list of user goals
+     * @return the list of user goals
+     */
     public static UserGoals getUserGoals() {
         return userGoals;
     }
 
+    /**
+     * Returns the pet
+     * @return the pet
+     */
     public static Pet getPet() {
         return pet;
     }
 
-
+    /**
+     * Checks if daily goals are met
+     * @return true if goals are met, false otherwise
+     */
     public static boolean areGoalsMet() {
         if (currentDay == null || userGoals == null) return false;
         return currentDay.goalsMet(userGoals);
     }
 
+    /**
+     * Checks if daily goals are met considering exercise
+     * @return true if goals are met, false otherwise
+     */
     public static boolean areGoalsMetConsideringExercise() {
         if (userGoals == null) return false;
         boolean waterOk    = getTotalWaterToday()    >= userGoals.getWaterGoalOz();
@@ -162,6 +170,9 @@ public class Main {
         return waterOk && sleepOk && exerciseOk && foodOk;
     }
 
+    /**
+     * Updates pet mood based on goals
+     */
     public static void updatePetMood() {
         if (pet != null && currentDay != null && userGoals != null) {
             boolean goalsMet = areGoalsMetConsideringExercise();
@@ -169,6 +180,10 @@ public class Main {
         }
     }
 
+    /**
+     * Returns total water
+     * @return total water
+     */
     public static int getTotalWaterToday() {
         if (currentDay == null) return 0;
         int total = 0;
@@ -178,6 +193,10 @@ public class Main {
         return total;
     }
 
+    /**
+     * Returns total sleep
+     * @return total sleep
+     */
     public static int getTotalSleepToday() {
         if (currentDay == null) return 0;
         int total = 0;
@@ -187,6 +206,10 @@ public class Main {
         return total;
     }
 
+    /**
+     * Returns total calories burned
+     * @return calories burned
+     */
     public static int getTotalExerciseToday() {
         if (currentDay == null) return 0;
         int total = 0;
@@ -196,6 +219,10 @@ public class Main {
         return total;
     }
 
+    /**
+     * Returns total calories burned today
+     * @return total calories burned today
+     */
     public static int getTotalCaloriesToday() {
         if (currentDay == null) return 0;
         int total = 0;
@@ -205,36 +232,24 @@ public class Main {
         return total;
     }
 
+    /**
+     * Returns net calories today
+     * @return net calories today
+     */
     public static int getNetCaloriesToday() {
         int net = getTotalCaloriesToday() - getTotalExerciseToday();
         return Math.max(0, net);
     }
 
+    /**
+     * Returns calories left today
+     * @return calories left today
+     */
     public static int getCaloriesLeftToday() {
         if (userGoals == null) return 0;
         int left = userGoals.getFoodGoalCalories() - getNetCaloriesToday();
         return Math.max(0, left);
     }
 
-    public static double getWaterProgress() {
-        if (userGoals == null) return 0.0;
-        return Math.min(100.0, (getTotalWaterToday() / (double) userGoals.getWaterGoalOz()) * 100);
-    }
 
-    public static double getSleepProgress() {
-        if (userGoals == null) return 0.0;
-        return Math.min(100.0, (getTotalSleepToday() / (double) userGoals.getSleepGoalHours()) * 100);
-    }
-
-    public static double getExerciseProgress() {
-        if (userGoals == null) return 0.0;
-        return Math.min(100.0, (getTotalExerciseToday() / (double) userGoals.getExerciseGoalCalories()) * 100);
-    }
-
-    public static double getFoodProgress() {
-        if (userGoals == null) return 0.0;
-        int total = getNetCaloriesToday();
-        int goal  = userGoals.getFoodGoalCalories();
-        return Math.min(100.0, (total / (double) goal) * 100);
-    }
 }

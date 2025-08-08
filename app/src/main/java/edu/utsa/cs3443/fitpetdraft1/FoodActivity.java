@@ -9,12 +9,32 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Food activity to log food data. The user is able to enter and save food name and calories.
+ * Optionally user is able to save fats, proteins and carbs.
+ * Displays functional navigational tools to Exercise, Sleep, Water and Home screens
+ * Validates user input for more realistic input values
+ *
+ * @author Michael DeWitt
+ * @author Bella Rodriguez
+ * @author Sofia Galindo
+ * @author Jose Ramos-Rodriguez
+ *
+ */
 public class FoodActivity extends AppCompatActivity {
 
     private TextView currentCaloriesText;
     private TextView caloriesLeftText;
     private EditText foodNameInput, caloriesInput, fatsInput, carbsInput, proteinInput;
 
+    /**
+     * Initializes food screen
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +50,8 @@ public class FoodActivity extends AppCompatActivity {
         Button saveFoodButton = findViewById(R.id.saveFoodButton);
         Button homeButton     = findViewById(R.id.homeButton);
 
-
         updateCalorieHeader();
-
+        // Navigates back to home screen
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -40,6 +59,7 @@ public class FoodActivity extends AppCompatActivity {
             finish();
         });
 
+        // Saves food
         saveFoodButton.setOnClickListener(v -> {
             String name       = foodNameInput.getText().toString().trim();
             String caloriesStr= caloriesInput.getText().toString().trim();
@@ -47,7 +67,7 @@ public class FoodActivity extends AppCompatActivity {
             String carbsStr   = carbsInput.getText().toString().trim();
             String proteinStr = proteinInput.getText().toString().trim();
 
-
+            // Food validation
             if (name.isEmpty()) {
                 foodNameInput.setError("Please enter a food name");
                 Toast.makeText(this, "Please enter a food name", Toast.LENGTH_SHORT).show();
@@ -58,7 +78,6 @@ public class FoodActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter calories", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             int calories, fats = 0, carbs = 0, protein = 0;
             try {
                 calories = Integer.parseInt(caloriesStr);
@@ -67,7 +86,6 @@ public class FoodActivity extends AppCompatActivity {
                 Toast.makeText(this, "Invalid calories input", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             try {
                 if (!fatsStr.isEmpty())    fats = Integer.parseInt(fatsStr);
                 if (!carbsStr.isEmpty())   carbs = Integer.parseInt(carbsStr);
@@ -77,7 +95,7 @@ public class FoodActivity extends AppCompatActivity {
                 return;
             }
 
-
+            // Macro validation
             boolean macrosEntered = (!fatsStr.isEmpty() || !carbsStr.isEmpty() || !proteinStr.isEmpty());
             if (macrosEntered) {
                 boolean macroError = false;
@@ -111,7 +129,7 @@ public class FoodActivity extends AppCompatActivity {
                 }
             }
 
-
+            // Adds food to log
             if (!macrosEntered) {
                 Main.addFood(name, calories);
             } else {
@@ -120,6 +138,7 @@ public class FoodActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Food added successfully!", Toast.LENGTH_SHORT).show();
 
+            // Clear all inputs
             foodNameInput.setText("");
             caloriesInput.setText("");
             fatsInput.setText("");
@@ -133,6 +152,7 @@ public class FoodActivity extends AppCompatActivity {
             updateCalorieHeader();
         });
 
+        // Navigation buttons
         Button sleepButton = findViewById(R.id.sleepButton);
         Button exerciseButton = findViewById(R.id.exerciseButton);
         Button waterButton = findViewById(R.id.waterButton);
@@ -142,12 +162,18 @@ public class FoodActivity extends AppCompatActivity {
         waterButton.setOnClickListener(v -> startActivity(new Intent(this, WaterActivity.class)));
     }
 
+    /**
+     * Refreshes calorie information
+     */
     @Override
     protected void onResume() {
         super.onResume();
         updateCalorieHeader();
     }
 
+    /**
+     * Updates calorie headers
+     */
     private void updateCalorieHeader() {
         int eaten = Main.getTotalCaloriesToday();
         int left  = Main.getCaloriesLeftToday();

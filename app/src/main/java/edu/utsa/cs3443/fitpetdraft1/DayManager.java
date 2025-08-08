@@ -10,13 +10,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
+/**
+ * Creates a text file that displays user goals and their status
+ * Writes ACHIEVED for met goals and NOT MET/EXCEEDS for unmet goals
+ *
+ *   @author Michael DeWitt
+ *   @author Bella Rodriguez
+ *   @author Sofia Galindo
+ *   @author Jose Ramos-Rodriguez
+ *
+ */
 public class DayManager {
 
     private static final String PREFS_NAME = "FitPetPrefs";
     private static final String LAST_DATE_KEY = "lastDate";
     private static final String SUMMARY_FILE = "daily_summaries.txt";
 
+    /**
+     * Checks device dates
+     * @param context Android context for prefs/file I/O
+     * @return true if new day is detected, falser otherwise
+     * @throws IOException if writing fails
+     */
     public static boolean checkAndHandleNewDay(Context context) throws IOException {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -42,6 +57,12 @@ public class DayManager {
         return false;
     }
 
+    /**
+     * Formats daily summary
+     * @param context Android context for file I/O
+     * @param date the date to write
+     * @throws IOException if writing fails
+     */
     private static void saveDailySummaryToFile(Context context, String date) throws IOException {
         String summary = generateDailySummaryForFile(date);
 
@@ -53,6 +74,11 @@ public class DayManager {
         fos.close();
     }
 
+    /**
+     * Generates daily summary for text file
+     * @param date the date of this file
+     * @return the date of this file
+     */
     private static String generateDailySummaryForFile(String date) {
         StringBuilder summary = new StringBuilder();
 
@@ -103,6 +129,9 @@ public class DayManager {
         return summary.toString();
     }
 
+    /**
+     * Handles day transition and updates pet mood
+     */
     private static void handleDayTransition() {
         if (Main.getUserGoals() != null && Main.getCurrentDay() != null) {
             boolean goalsMet = Main.areGoalsMet();
@@ -110,6 +139,11 @@ public class DayManager {
         }
     }
 
+    /**
+     * Writes todays date to file
+     * @param context Android context for file I/O
+     * @throws IOException if writing fails
+     */
     public static void saveCurrentDayToFile(Context context) throws IOException {
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         saveDailySummaryToFile(context, today);
