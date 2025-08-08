@@ -57,33 +57,41 @@ public class DayManager {
         StringBuilder summary = new StringBuilder();
 
         summary.append("DAILY SUMMARY - ").append(date).append("\n");
-        summary.append("Generated: ").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date())).append("\n\n");
+        summary.append("Generated: ")
+                .append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()))
+                .append("\n\n");
 
         if (Main.getCurrentDay() != null && Main.getUserGoals() != null) {
-            int waterTotal = Main.getTotalWaterToday();
-            int waterGoal = Main.getUserGoals().getWaterGoalOz();
-            int sleepTotal = Main.getTotalSleepToday();
-            int sleepGoal = Main.getUserGoals().getSleepGoalHours();
+            int waterTotal    = Main.getTotalWaterToday();
+            int waterGoal     = Main.getUserGoals().getWaterGoalOz();
+            int sleepTotal    = Main.getTotalSleepToday();
+            int sleepGoal     = Main.getUserGoals().getSleepGoalHours();
+            int foodTotal     = Main.getTotalCaloriesToday();
             int exerciseTotal = Main.getTotalExerciseToday();
-            int exerciseGoal = Main.getUserGoals().getExerciseGoalCalories();
-            int foodTotal = Main.getTotalCaloriesToday();
-            int foodGoal = Main.getUserGoals().getFoodGoalCalories();
+            int netCalories   = Math.max(0, foodTotal - exerciseTotal);
+            int foodGoal      = Main.getUserGoals().getFoodGoalCalories();
 
             summary.append("GOALS PROGRESS:\n");
-            summary.append("Water: ").append(waterTotal).append("/").append(waterGoal).append(" oz");
-            summary.append(waterTotal >= waterGoal ? " [ACHIEVED]" : " [NOT MET]").append("\n");
 
-            summary.append("Sleep: ").append(sleepTotal).append("/").append(sleepGoal).append(" hours");
-            summary.append(sleepTotal >= sleepGoal ? " [ACHIEVED]" : " [NOT MET]").append("\n");
+            summary.append("Water: ").append(waterTotal).append("/").append(waterGoal).append(" oz ")
+                    .append(waterTotal >= waterGoal ? "[ACHIEVED]" : "[NOT MET]").append("\n");
 
-            summary.append("Exercise: ").append(exerciseTotal).append("/").append(exerciseGoal).append(" calories");
-            summary.append(exerciseTotal >= exerciseGoal ? " [ACHIEVED]" : " [NOT MET]").append("\n");
+            summary.append("Sleep: ").append(sleepTotal).append("/").append(sleepGoal).append(" hours ")
+                    .append(sleepTotal >= sleepGoal ? "[ACHIEVED]" : "[NOT MET]").append("\n");
 
-            summary.append("Food: ").append(foodTotal).append("/").append(foodGoal).append(" calories");
-            summary.append(foodTotal <= foodGoal ? " [ACHIEVED]" : " [EXCEEDED]").append("\n\n");
+            summary.append("Food: ").append(foodTotal).append(" calories").append("\n");
+            summary.append("Exercise: ").append(exerciseTotal).append(" calories").append("\n");
 
-            boolean allGoalsMet = Main.areGoalsMet();
-            summary.append("OVERALL STATUS: ").append(allGoalsMet ? "ALL GOALS ACHIEVED!" : "GOALS NOT COMPLETED").append("\n");
+            summary.append("Net Calories: ").append(netCalories).append("/")
+                    .append(foodGoal).append(" ")
+                    .append(netCalories <= foodGoal ? "[ACHIEVED]" : "[EXCEEDED]").append("\n\n");
+
+            boolean allGoalsMet = (waterTotal >= waterGoal)
+                    && (sleepTotal >= sleepGoal)
+                    && (netCalories <= foodGoal);
+
+            summary.append("OVERALL STATUS: ")
+                    .append(allGoalsMet ? "ALL GOALS ACHIEVED!" : "GOALS NOT COMPLETED").append("\n");
 
             if (Main.getPet() != null) {
                 summary.append("PET STATUS: ").append(Main.getPet().toString()).append("\n");

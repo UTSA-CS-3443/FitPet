@@ -51,12 +51,12 @@ public class DayLog {
         int totalCalories = 0;
         for (Food f : foodLog) totalCalories += f.getCalories();
 
-        int netCalories = Math.max(0, totalCalories - totalExercise); // <-- key change
+        int netCalories = Math.max(0, totalCalories - totalExercise);
 
         return totalWater >= goals.getWaterGoalOz()
                 && totalSleep >= goals.getSleepGoalHours()
                 && totalExercise >= goals.getExerciseGoalCalories()
-                && netCalories <= goals.getFoodGoalCalories(); // <-- compare NET to goal
+                && netCalories <= goals.getFoodGoalCalories();
     }
 
     @Override

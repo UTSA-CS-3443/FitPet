@@ -164,7 +164,7 @@ public class Main {
 
     public static void updatePetMood() {
         if (pet != null && currentDay != null && userGoals != null) {
-            boolean goalsMet = areGoalsMetConsideringExercise(); // use net calories
+            boolean goalsMet = areGoalsMetConsideringExercise();
             pet.updateMood(goalsMet);
         }
     }
@@ -233,7 +233,7 @@ public class Main {
 
     public static double getFoodProgress() {
         if (userGoals == null) return 0.0;
-        int total = getNetCaloriesToday(); // use net here
+        int total = getNetCaloriesToday();
         int goal  = userGoals.getFoodGoalCalories();
         return Math.min(100.0, (total / (double) goal) * 100);
     }

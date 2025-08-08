@@ -7,7 +7,6 @@ public class Food {
     private int protein;
     private int calories;
 
-    // calories only constructor
     public Food(String name, int calories) {
         this.name = name;
         this.calories = calories;
