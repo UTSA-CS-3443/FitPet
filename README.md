@@ -49,7 +49,7 @@ The app automatically saves your daily progress to text files for record keeping
 2. **File Name**: `daily_summaries.txt`
 3. **Accessing Files**: 
    - Use the "Save Today's Progress" button in the Goals/Settings screen
-   - Files can be accessed through Android Studio's Device File Explorer
+   - Files can be accessed through Android Studio's Device File Explorer (View -> Tool Windows -> Device Explorer)
    - Path: `/data/data/edu.utsa.cs3443.fitpetdraft1/files/daily_summaries.txt`
 4. **File Content**: Contains date, goals, actual values, and goal completion status for each day
 
