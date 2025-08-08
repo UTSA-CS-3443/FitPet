@@ -14,7 +14,7 @@ The language used to write this app is **Java** with **XML** for Android layouts
 We used **Android Studio** to code the app, **GitHub** for version control, and **XML** for designing the user interface layouts. The app utilizes **SharedPreferences** for storing user goals and settings, and **file I/O** for saving daily progress summaries.
 
 ## **Features**
-- **Customizable Goals**: Set personalized targets for calories, water intake, sleep hours, and exercise
+- **Customizable Goals**: Set personalized targets for calories, water intake, sleep hours
 - **Activity Logging**: Easy-to-use interfaces for logging food (with macro tracking), water consumption, sleep hours, and exercise activities
 - **Pet Companion**: Virtual pet that becomes happy when you meet your goals and sad when you don't
 - **Input Validation**: Comprehensive error checking with helpful toast messages for all user inputs
