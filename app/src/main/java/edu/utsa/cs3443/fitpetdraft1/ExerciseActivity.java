@@ -35,7 +35,6 @@ public class ExerciseActivity extends AppCompatActivity {
             finish();
         });
 
-        // enter button
         enterButton.setOnClickListener(v -> {
             String type = typeInput.getText().toString().trim();
             String durationStr = durationInput.getText().toString().trim();
@@ -86,12 +85,12 @@ public class ExerciseActivity extends AppCompatActivity {
             durationInput.setText("");
             caloriesInput.setText("");
 
-            // update display
+
             int newTotal = Main.getTotalExerciseToday();
             caloriesMessage.setText("You have burned " + newTotal + " calories today.");
         });
 
-        // nav buttons
+
         Button foodButton = findViewById(R.id.foodButton);
         Button sleepButton = findViewById(R.id.sleepButton);
         Button waterButton = findViewById(R.id.waterButton);

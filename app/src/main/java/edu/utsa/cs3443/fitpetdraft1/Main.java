@@ -11,15 +11,12 @@ public class Main {
 
     public static void main(String[] args) {
         initializeDefaults();
-
         testApp();
     }
 
     static void initializeDefaults() {
         userGoals = new UserGoals(64, 8, 300, 2000);
-
         pet = new Pet("name");
-
         currentDay = new DayLog("07/26/2025");
         allDays.add(currentDay);
 
@@ -30,8 +27,6 @@ public class Main {
 
     private static void testApp() {
         System.out.println("\n--- Testing App Functionality ---");
-
-        // Test adding some sample data
         addFood("Apple", 50, 0, 25, 0);
         addFood("Pasta", 200, 20, 30, 25);
         addExercise("Running", 200);
@@ -40,9 +35,8 @@ public class Main {
         addWater(32);
         addWater(32);
 
-        // Check status
         System.out.println("\n" + currentDay);
-        System.out.println("Goals met: " + currentDay.goalsMet(userGoals));
+        System.out.println("Goals met: " + areGoalsMetConsideringExercise());
         System.out.println(pet);
     }
 
@@ -68,8 +62,9 @@ public class Main {
                     getTotalSleepToday(), userGoals.getSleepGoalHours(), getSleepProgress()));
             message.append(String.format("Exercise: %d/%d cal (%.1f%%)\n",
                     getTotalExerciseToday(), userGoals.getExerciseGoalCalories(), getExerciseProgress()));
-            message.append(String.format("Food: %d/%d cal (%.1f%%)\n",
-                    getTotalCaloriesToday(), userGoals.getFoodGoalCalories(), getFoodProgress()));
+            message.append(String.format("Food (NET): %d/%d cal (%.1f%%)\n",
+                    getNetCaloriesToday(), userGoals.getFoodGoalCalories(),
+                    Math.min(100.0, (getNetCaloriesToday() / (double) userGoals.getFoodGoalCalories()) * 100)));
         }
 
         message.append("\n");
@@ -90,7 +85,6 @@ public class Main {
 
     public static boolean addFood(String name, int calories, int fats, int carbs, int protein) {
         if (currentDay == null) return false;
-
         Food food = new Food(name, calories, fats, carbs, protein);
         currentDay.getFoodLog().add(food);
         updatePetMood();
@@ -99,7 +93,6 @@ public class Main {
 
     public static boolean addExercise(String name, int caloriesBurned) {
         if (currentDay == null) return false;
-
         Exercise exercise = new Exercise(name, caloriesBurned);
         currentDay.getExerciseLog().add(exercise);
         updatePetMood();
@@ -108,7 +101,6 @@ public class Main {
 
     public static boolean addSleep(int hours) {
         if (currentDay == null) return false;
-
         Sleep sleep = new Sleep(hours);
         currentDay.getSleepLog().add(sleep);
         updatePetMood();
@@ -117,7 +109,6 @@ public class Main {
 
     public static boolean addWater(int ounces) {
         if (currentDay == null) return false;
-
         Water water = new Water(ounces);
         currentDay.getWaterLog().add(water);
         updatePetMood();
@@ -156,14 +147,24 @@ public class Main {
         return pet;
     }
 
+
     public static boolean areGoalsMet() {
         if (currentDay == null || userGoals == null) return false;
         return currentDay.goalsMet(userGoals);
     }
 
+    public static boolean areGoalsMetConsideringExercise() {
+        if (userGoals == null) return false;
+        boolean waterOk    = getTotalWaterToday()    >= userGoals.getWaterGoalOz();
+        boolean sleepOk    = getTotalSleepToday()    >= userGoals.getSleepGoalHours();
+        boolean exerciseOk = getTotalExerciseToday() >= userGoals.getExerciseGoalCalories();
+        boolean foodOk     = getNetCaloriesToday()   <= userGoals.getFoodGoalCalories();
+        return waterOk && sleepOk && exerciseOk && foodOk;
+    }
+
     public static void updatePetMood() {
         if (pet != null && currentDay != null && userGoals != null) {
-            boolean goalsMet = currentDay.goalsMet(userGoals);
+            boolean goalsMet = areGoalsMetConsideringExercise(); // use net calories
             pet.updateMood(goalsMet);
         }
     }
@@ -204,6 +205,17 @@ public class Main {
         return total;
     }
 
+    public static int getNetCaloriesToday() {
+        int net = getTotalCaloriesToday() - getTotalExerciseToday();
+        return Math.max(0, net);
+    }
+
+    public static int getCaloriesLeftToday() {
+        if (userGoals == null) return 0;
+        int left = userGoals.getFoodGoalCalories() - getNetCaloriesToday();
+        return Math.max(0, left);
+    }
+
     public static double getWaterProgress() {
         if (userGoals == null) return 0.0;
         return Math.min(100.0, (getTotalWaterToday() / (double) userGoals.getWaterGoalOz()) * 100);
@@ -221,14 +233,8 @@ public class Main {
 
     public static double getFoodProgress() {
         if (userGoals == null) return 0.0;
-        int total = getTotalCaloriesToday();
-        int goal = userGoals.getFoodGoalCalories();
-        if (total <= goal) {
-            return (total / (double) goal) * 100;
-        } else {
-            return 100.0;
-        }
+        int total = getNetCaloriesToday(); // use net here
+        int goal  = userGoals.getFoodGoalCalories();
+        return Math.min(100.0, (total / (double) goal) * 100);
     }
-
-
 }

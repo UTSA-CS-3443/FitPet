@@ -40,29 +40,23 @@ public class DayLog {
 
     public boolean goalsMet(UserGoals goals) {
         int totalWater = 0;
-        for (Water w : waterLog) {
-            totalWater += w.getOunces();
-        }
+        for (Water w : waterLog) totalWater += w.getOunces();
 
         int totalSleep = 0;
-        for (Sleep s : sleepLog) {
-            totalSleep += s.getHours();
-        }
+        for (Sleep s : sleepLog) totalSleep += s.getHours();
 
         int totalExercise = 0;
-        for (Exercise e : exerciseLog) {
-            totalExercise += e.getCaloriesBurned();
-        }
+        for (Exercise e : exerciseLog) totalExercise += e.getCaloriesBurned();
 
         int totalCalories = 0;
-        for (Food f : foodLog) {
-            totalCalories += f.getCalories();
-        }
+        for (Food f : foodLog) totalCalories += f.getCalories();
+
+        int netCalories = Math.max(0, totalCalories - totalExercise); // <-- key change
 
         return totalWater >= goals.getWaterGoalOz()
                 && totalSleep >= goals.getSleepGoalHours()
                 && totalExercise >= goals.getExerciseGoalCalories()
-                && totalCalories <= goals.getFoodGoalCalories();
+                && netCalories <= goals.getFoodGoalCalories(); // <-- compare NET to goal
     }
 
     @Override

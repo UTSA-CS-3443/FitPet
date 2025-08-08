@@ -9,31 +9,29 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 public class FoodActivity extends AppCompatActivity {
+
+    private TextView currentCaloriesText;
+    private TextView caloriesLeftText;
+    private EditText foodNameInput, caloriesInput, fatsInput, carbsInput, proteinInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
 
-        TextView currentCaloriesText = findViewById(R.id.currentCaloriesText);
-        TextView caloriesLeftText = findViewById(R.id.caloriesLeftText);
-        EditText foodNameInput = findViewById(R.id.foodNameInput);
-        EditText caloriesInput = findViewById(R.id.caloriesInput);
-        EditText fatsInput = findViewById(R.id.fatsInput);
-        EditText carbsInput = findViewById(R.id.carbsInput);
-        EditText proteinInput = findViewById(R.id.proteinInput);
+        currentCaloriesText = findViewById(R.id.currentCaloriesText);
+        caloriesLeftText    = findViewById(R.id.caloriesLeftText);
+        foodNameInput       = findViewById(R.id.foodNameInput);
+        caloriesInput       = findViewById(R.id.caloriesInput);
+        fatsInput           = findViewById(R.id.fatsInput);
+        carbsInput          = findViewById(R.id.carbsInput);
+        proteinInput        = findViewById(R.id.proteinInput);
         Button saveFoodButton = findViewById(R.id.saveFoodButton);
-        Button homeButton = findViewById(R.id.homeButton);
+        Button homeButton     = findViewById(R.id.homeButton);
 
 
-        int currentCalories = Main.getTotalCaloriesToday();
-        int goalCalories = Main.getUserGoals().getFoodGoalCalories();
-        int caloriesLeft = goalCalories - currentCalories;
-
-        currentCaloriesText.setText("Current Calories: " + currentCalories);
-        caloriesLeftText.setText("Calories Left: " + caloriesLeft);
+        updateCalorieHeader();
 
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -43,11 +41,11 @@ public class FoodActivity extends AppCompatActivity {
         });
 
         saveFoodButton.setOnClickListener(v -> {
-            String name = foodNameInput.getText().toString();
-            String caloriesStr = caloriesInput.getText().toString();
-            String fatsStr = fatsInput.getText().toString();
-            String carbsStr = carbsInput.getText().toString();
-            String proteinStr = proteinInput.getText().toString();
+            String name       = foodNameInput.getText().toString().trim();
+            String caloriesStr= caloriesInput.getText().toString().trim();
+            String fatsStr    = fatsInput.getText().toString().trim();
+            String carbsStr   = carbsInput.getText().toString().trim();
+            String proteinStr = proteinInput.getText().toString().trim();
 
 
             if (name.isEmpty()) {
@@ -55,51 +53,37 @@ public class FoodActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter a food name", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (caloriesStr.isEmpty()) {
                 caloriesInput.setError("Please enter calories");
                 Toast.makeText(this, "Please enter calories", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            int calories = 0;
-            int fats = 0;
-            int carbs = 0;
-            int protein = 0;
-
+            int calories, fats = 0, carbs = 0, protein = 0;
             try {
                 calories = Integer.parseInt(caloriesStr);
             } catch (NumberFormatException e) {
+                caloriesInput.setError("Invalid calories input");
                 Toast.makeText(this, "Invalid calories input", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-
             try {
-                if (!fatsStr.isEmpty()) {
-                    fats = Integer.parseInt(fatsStr);
-                }
-                if (!carbsStr.isEmpty()) {
-                    carbs = Integer.parseInt(carbsStr);
-                }
-                if (!proteinStr.isEmpty()) {
-                    protein = Integer.parseInt(proteinStr);
-                }
+                if (!fatsStr.isEmpty())    fats = Integer.parseInt(fatsStr);
+                if (!carbsStr.isEmpty())   carbs = Integer.parseInt(carbsStr);
+                if (!proteinStr.isEmpty()) protein = Integer.parseInt(proteinStr);
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Invalid macro input", Toast.LENGTH_SHORT).show();
                 return;
             }
 
 
-
-
             boolean macrosEntered = (!fatsStr.isEmpty() || !carbsStr.isEmpty() || !proteinStr.isEmpty());
-
             if (macrosEntered) {
                 boolean macroError = false;
 
-                int maxFat = (int) Math.ceil(calories / 9.0);
-                int maxCarbs = (int) Math.ceil(calories / 4.0);
+                int maxFat     = (int) Math.ceil(calories / 9.0);
+                int maxCarbs   = (int) Math.ceil(calories / 4.0);
                 int maxProtein = (int) Math.ceil(calories / 4.0);
 
                 if (fats > maxFat) {
@@ -114,7 +98,6 @@ public class FoodActivity extends AppCompatActivity {
                     proteinInput.setError("Too much protein for " + calories + " cal (max ~" + maxProtein + "g)");
                     macroError = true;
                 }
-
                 if (macroError) {
                     Toast.makeText(this, "Macros exceed what's possible for the entered calories.", Toast.LENGTH_LONG).show();
                     return;
@@ -129,8 +112,7 @@ public class FoodActivity extends AppCompatActivity {
             }
 
 
-
-            if (fatsStr.isEmpty() && carbsStr.isEmpty() && proteinStr.isEmpty()) {
+            if (!macrosEntered) {
                 Main.addFood(name, calories);
             } else {
                 Main.addFood(name, calories, fats, carbs, protein);
@@ -148,13 +130,8 @@ public class FoodActivity extends AppCompatActivity {
             fatsInput.setError(null);
             carbsInput.setError(null);
             proteinInput.setError(null);
-
-            int newCalories = Main.getTotalCaloriesToday();
-            int newCaloriesLeft = goalCalories - newCalories;
-            currentCaloriesText.setText("Current Calories: " + newCalories);
-            caloriesLeftText.setText("Calories Left: " + newCaloriesLeft);
+            updateCalorieHeader();
         });
-
 
         Button sleepButton = findViewById(R.id.sleepButton);
         Button exerciseButton = findViewById(R.id.exerciseButton);
@@ -163,5 +140,18 @@ public class FoodActivity extends AppCompatActivity {
         sleepButton.setOnClickListener(v -> startActivity(new Intent(this, SleepActivity.class)));
         exerciseButton.setOnClickListener(v -> startActivity(new Intent(this, ExerciseActivity.class)));
         waterButton.setOnClickListener(v -> startActivity(new Intent(this, WaterActivity.class)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCalorieHeader();
+    }
+
+    private void updateCalorieHeader() {
+        int eaten = Main.getTotalCaloriesToday();
+        int left  = Main.getCaloriesLeftToday();
+        currentCaloriesText.setText("Current Calories: " + eaten);
+        caloriesLeftText.setText("Calories Left: " + left);
     }
 }
