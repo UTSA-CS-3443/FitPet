@@ -57,6 +57,7 @@
 
 
 
+
     <ImageView
         android:id="@+id/dogIdle"
         android:layout_width="192dp"

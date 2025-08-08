@@ -1,10 +1,10 @@
 package edu.utsa.cs3443.fitpetdraft1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +17,10 @@ public class WaterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_water);
 
         TextView totalWaterText = findViewById(R.id.totalWaterText);
-        EditText addWaterInput = findViewById(R.id.addWaterInput);
-        Button addWaterButton = findViewById(R.id.addWaterButton);
-        Button homeButton = findViewById(R.id.homeButton);
+        TextView waterMessage   = findViewById(R.id.waterMessage);
+        EditText addWaterInput  = findViewById(R.id.addWaterInput);
+        Button addWaterButton   = findViewById(R.id.addWaterButton);
+        Button homeButton       = findViewById(R.id.homeButton);
 
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -28,17 +29,16 @@ public class WaterActivity extends AppCompatActivity {
             finish();
         });
 
-        int totalWater = Main.getTotalWaterToday();
-        totalWaterText.setText(totalWater + " oz");
+        updateWaterProgress(totalWaterText);
+        updateWaterGoalMessage(waterMessage, Main.getTotalWaterToday());
 
-        TextView waterMessage = findViewById(R.id.waterMessage);
-        updateWaterGoalMessage(waterMessage, totalWater);
 
         addWaterButton.setOnClickListener(v -> {
-            String waterStr = addWaterInput.getText().toString();
+            String waterStr = addWaterInput.getText().toString().trim();
 
-            //validation
+
             if (waterStr.isEmpty()) {
+                addWaterInput.setError("Enter ounces");
                 Toast.makeText(this, "Please enter amount of water", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -46,6 +46,10 @@ public class WaterActivity extends AppCompatActivity {
             int ounces;
             try {
                 ounces = Integer.parseInt(waterStr);
+                if (ounces <= 0) {
+                    addWaterInput.setError("Must be > 0");
+                    return;
+                }
                 if (ounces > 500) {
                     Toast.makeText(this, "Water amount too high", Toast.LENGTH_SHORT).show();
                     return;
@@ -58,11 +62,10 @@ public class WaterActivity extends AppCompatActivity {
             Main.addWater(ounces);
             Toast.makeText(this, "Water added successfully!", Toast.LENGTH_SHORT).show();
             addWaterInput.setText("");
+            addWaterInput.setError(null);
 
-
-            int newTotal = Main.getTotalWaterToday();
-            totalWaterText.setText(newTotal + " oz");
-            updateWaterGoalMessage(waterMessage, newTotal);
+            updateWaterProgress(totalWaterText);
+            updateWaterGoalMessage(waterMessage, Main.getTotalWaterToday());
         });
 
         Button foodButton = findViewById(R.id.foodButton);
@@ -72,9 +75,13 @@ public class WaterActivity extends AppCompatActivity {
         foodButton.setOnClickListener(v -> startActivity(new Intent(this, FoodActivity.class)));
         sleepButton.setOnClickListener(v -> startActivity(new Intent(this, SleepActivity.class)));
         exerciseButton.setOnClickListener(v -> startActivity(new Intent(this, ExerciseActivity.class)));
-
     }
 
+    private void updateWaterProgress(TextView totalWaterText) {
+        int total = Main.getTotalWaterToday();
+        int goal  = Main.getUserGoals().getWaterGoalOz();
+        totalWaterText.setText(total + " / " + goal + " oz");
+    }
     private void updateWaterGoalMessage(TextView waterMessage, int totalWater) {
         if (totalWater >= Main.getUserGoals().getWaterGoalOz()) {
             waterMessage.setText("Great job! You met your water goal!");

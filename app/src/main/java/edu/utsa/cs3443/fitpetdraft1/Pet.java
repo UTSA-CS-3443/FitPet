@@ -11,9 +11,9 @@ public class Pet {
 
     public void updateMood(boolean goalsMet) {
         if (goalsMet) {
-            mood = "happy";
+            this.mood = "HAPPY";
         } else {
-            mood = "sad";
+            this.mood = "SAD";
         }
     }
 
@@ -23,6 +23,8 @@ public class Pet {
 
     @Override
     public String toString() {
-        return name + " is feeling " + mood + " today.";
-    }
+
+            return this.name + " is feeling " + this.mood + " today";
+        }
+
 }
