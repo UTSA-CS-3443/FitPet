@@ -65,7 +65,7 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <ImageView
+            <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/exerciseDog"
                 android:layout_width="80dp"
                 android:layout_height="80dp"

@@ -8,16 +8,6 @@
     android:background="@drawable/background"
     tools:context=".GoalsActivity">
 
-    <ImageView
-        android:id="@+id/dogPeak"
-        android:layout_width="98dp"
-        android:layout_height="72dp"
-        android:translationX="650px"
-        android:translationY="147px"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/peak"
-        tools:layout_editor_absoluteX="34dp" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/goalsCard"
         android:layout_width="0dp"
@@ -213,8 +203,8 @@
             <Button
                 android:id="@+id/saveProgressButton"
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
                 android:layout_height="56dp"
+                android:layout_gravity="center"
                 android:text="Save Today's Progress"
                 android:textStyle="bold" />
 
@@ -233,7 +223,8 @@
         app:layout_constraintHorizontal_bias="0.047"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintVertical_bias="0.975"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/sleepButton"
@@ -247,7 +238,8 @@
         app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintVertical_bias="0.975"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/exerciseButton"
@@ -262,7 +254,8 @@
         app:layout_constraintHorizontal_bias="0.628"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.977" />
+        app:layout_constraintVertical_bias="0.977"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/waterButton"
@@ -276,6 +269,20 @@
         app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.977" />
+        app:layout_constraintVertical_bias="0.977"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/dogPeak"
+        android:layout_width="98dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="79dp"
+        android:layout_marginBottom="719dp"
+        android:src="@drawable/peak"
+        android:translationY="-20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
