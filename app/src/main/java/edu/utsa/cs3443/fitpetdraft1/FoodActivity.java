@@ -49,23 +49,24 @@ public class FoodActivity extends AppCompatActivity {
             String carbsStr = carbsInput.getText().toString();
             String proteinStr = proteinInput.getText().toString();
 
-            // validation
+
             if (name.isEmpty()) {
+                foodNameInput.setError("Please enter a food name");
                 Toast.makeText(this, "Please enter a food name", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (caloriesStr.isEmpty()) {
+                caloriesInput.setError("Please enter calories");
                 Toast.makeText(this, "Please enter calories", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            int calories;
+            int calories = 0;
             int fats = 0;
             int carbs = 0;
             int protein = 0;
 
-            // validate calories
             try {
                 calories = Integer.parseInt(caloriesStr);
             } catch (NumberFormatException e) {
@@ -73,7 +74,7 @@ public class FoodActivity extends AppCompatActivity {
                 return;
             }
 
-            // validate macros
+
             try {
                 if (!fatsStr.isEmpty()) {
                     fats = Integer.parseInt(fatsStr);
@@ -89,7 +90,39 @@ public class FoodActivity extends AppCompatActivity {
                 return;
             }
 
-            // check if macros entered
+            boolean macroError = false;
+
+            int maxFat = (int) Math.ceil(calories / 9.0);
+            int maxCarbs = (int) Math.ceil(calories / 4.0);
+            int maxProtein = (int) Math.ceil(calories / 4.0);
+
+            if (fats > maxFat) {
+                fatsInput.setError("Too much fat for " + calories + " cal (max ~" + maxFat + "g)");
+                macroError = true;
+            }
+            if (carbs > maxCarbs) {
+                carbsInput.setError("Too many carbs for " + calories + " cal (max ~" + maxCarbs + "g)");
+                macroError = true;
+            }
+            if (protein > maxProtein) {
+                proteinInput.setError("Too much protein for " + calories + " cal (max ~" + maxProtein + "g)");
+                macroError = true;
+            }
+
+            if (macroError) {
+                Toast.makeText(this, "Macros exceed what's possible for the entered calories.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            int macroCal = (fats * 9) + (carbs * 4) + (protein * 4);
+            if (Math.abs(macroCal - calories) > 10) {
+                caloriesInput.setError("Calories don't match macros (~" + macroCal + " cal)");
+                Toast.makeText(this, "Macros exceed calories (+-10 calories allowed).", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
+
             if (fatsStr.isEmpty() && carbsStr.isEmpty() && proteinStr.isEmpty()) {
                 Main.addFood(name, calories);
             } else {
@@ -103,8 +136,12 @@ public class FoodActivity extends AppCompatActivity {
             fatsInput.setText("");
             carbsInput.setText("");
             proteinInput.setText("");
+            foodNameInput.setError(null);
+            caloriesInput.setError(null);
+            fatsInput.setError(null);
+            carbsInput.setError(null);
+            proteinInput.setError(null);
 
-            // update display
             int newCalories = Main.getTotalCaloriesToday();
             int newCaloriesLeft = goalCalories - newCalories;
             currentCaloriesText.setText("Current Calories: " + newCalories);

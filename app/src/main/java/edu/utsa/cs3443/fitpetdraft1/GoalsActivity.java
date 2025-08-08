@@ -56,53 +56,51 @@ public class GoalsActivity extends AppCompatActivity {
             String waterStr  = waterGoalInput.getText().toString().trim();
             String sleepStr  = sleepGoalInput.getText().toString().trim();
 
-            boolean hasError = false;
+
 
             if (petName.isEmpty()) {
                 petNameInput.setError("Please enter a pet name");
-                hasError = true;
+                Toast.makeText(this, "Please enter a pet name", Toast.LENGTH_SHORT).show();
             }
 
             int calorieGoal = 0;
             if (calorieStr.isEmpty()) {
                 calorieGoalInput.setError("Please enter calorie goal");
-                hasError = true;
+                Toast.makeText(this, "Please enter calorie goal", Toast.LENGTH_SHORT).show();
+
             } else {
                 try { calorieGoal = Integer.parseInt(calorieStr); }
                 catch (NumberFormatException e) {
                     calorieGoalInput.setError("Invalid calorie goal");
-                    hasError = true;
+
                 }
             }
 
             int waterGoal = 0;
             if (waterStr.isEmpty()) {
                 waterGoalInput.setError("Please enter water goal");
-                hasError = true;
+                Toast.makeText(this, "Please enter water goal", Toast.LENGTH_SHORT).show();
+
             } else {
                 try { waterGoal = Integer.parseInt(waterStr); }
                 catch (NumberFormatException e) {
                     waterGoalInput.setError("Invalid water goal");
-                    hasError = true;
+
                 }
             }
 
             int sleepGoal = 0;
             if (sleepStr.isEmpty()) {
                 sleepGoalInput.setError("Please enter sleep goal");
-                hasError = true;
+                Toast.makeText(this, "Please enter sleep goal", Toast.LENGTH_SHORT).show();
             } else {
                 try { sleepGoal = Integer.parseInt(sleepStr); }
                 catch (NumberFormatException e) {
                     sleepGoalInput.setError("Invalid sleep goal");
-                    hasError = true;
+
                 }
             }
 
-            if (hasError) {
-                Toast.makeText(this, "Please fix the errors above", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
             int exerciseGoal = 0;
 
@@ -122,7 +120,6 @@ public class GoalsActivity extends AppCompatActivity {
 
             setBottomButtonsEnabled(true);
             setSaveProgressEnabled(true);
-
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
