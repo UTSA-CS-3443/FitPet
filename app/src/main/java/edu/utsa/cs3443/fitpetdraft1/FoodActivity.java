@@ -90,35 +90,42 @@ public class FoodActivity extends AppCompatActivity {
                 return;
             }
 
-            boolean macroError = false;
 
-            int maxFat = (int) Math.ceil(calories / 9.0);
-            int maxCarbs = (int) Math.ceil(calories / 4.0);
-            int maxProtein = (int) Math.ceil(calories / 4.0);
 
-            if (fats > maxFat) {
-                fatsInput.setError("Too much fat for " + calories + " cal (max ~" + maxFat + "g)");
-                macroError = true;
-            }
-            if (carbs > maxCarbs) {
-                carbsInput.setError("Too many carbs for " + calories + " cal (max ~" + maxCarbs + "g)");
-                macroError = true;
-            }
-            if (protein > maxProtein) {
-                proteinInput.setError("Too much protein for " + calories + " cal (max ~" + maxProtein + "g)");
-                macroError = true;
-            }
 
-            if (macroError) {
-                Toast.makeText(this, "Macros exceed what's possible for the entered calories.", Toast.LENGTH_LONG).show();
-                return;
-            }
+            boolean macrosEntered = (!fatsStr.isEmpty() || !carbsStr.isEmpty() || !proteinStr.isEmpty());
 
-            int macroCal = (fats * 9) + (carbs * 4) + (protein * 4);
-            if (Math.abs(macroCal - calories) > 10) {
-                caloriesInput.setError("Calories don't match macros (~" + macroCal + " cal)");
-                Toast.makeText(this, "Macros exceed calories (+-10 calories allowed).", Toast.LENGTH_LONG).show();
-                return;
+            if (macrosEntered) {
+                boolean macroError = false;
+
+                int maxFat = (int) Math.ceil(calories / 9.0);
+                int maxCarbs = (int) Math.ceil(calories / 4.0);
+                int maxProtein = (int) Math.ceil(calories / 4.0);
+
+                if (fats > maxFat) {
+                    fatsInput.setError("Too much fat for " + calories + " cal (max ~" + maxFat + "g)");
+                    macroError = true;
+                }
+                if (carbs > maxCarbs) {
+                    carbsInput.setError("Too many carbs for " + calories + " cal (max ~" + maxCarbs + "g)");
+                    macroError = true;
+                }
+                if (protein > maxProtein) {
+                    proteinInput.setError("Too much protein for " + calories + " cal (max ~" + maxProtein + "g)");
+                    macroError = true;
+                }
+
+                if (macroError) {
+                    Toast.makeText(this, "Macros exceed what's possible for the entered calories.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                int macroCal = (fats * 9) + (carbs * 4) + (protein * 4);
+                if (Math.abs(macroCal - calories) > 10) {
+                    caloriesInput.setError("Calories don't match macros (~" + macroCal + " cal)");
+                    Toast.makeText(this, "Macros do not match calories (+-10 calories allowed).", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
 
 

@@ -6,14 +6,14 @@ public class Pet {
 
     public Pet(String name) {
         this.name = name;
-        this.mood = "neutral";
+        this.mood = "sad";
     }
 
     public void updateMood(boolean goalsMet) {
         if (goalsMet) {
-            mood = "HAPPY";
+            mood = "happy";
         } else {
-            mood = "SAD";
+            mood = "sad";
         }
     }
 

@@ -47,10 +47,15 @@
             android:background="@drawable/square_button_background"
             android:padding="16dp"
             android:text="{petname}}"
-            android:textColor="#40E0D0"
+            android:textColor="@android:color/holo_blue_dark"
             android:textSize="24sp"
             android:textStyle="bold" />
+
+
     </androidx.cardview.widget.CardView>
+
+
+
 
     <ImageView
         android:id="@+id/dogIdle"

@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity {
         prefs = getSharedPreferences("FitPetPrefs", MODE_PRIVATE);
         initializeViews();
 
-        // if the goals aren't set, gaol screen opens first
+
         if (!areGoalsSet()) {
             Intent intent = new Intent(this, GoalsActivity.class);
             startActivity(intent);
             finish();
-        } else { //if they are set (returning user) , home screen opens
+        } else {
             loadGoals();
             try {
                 checkForNewDay();
