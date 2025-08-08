@@ -1,10 +1,10 @@
 package edu.utsa.cs3443.fitpetdraft1;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ public class GoalsActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
 
+    private Button foodButton, sleepButton, exerciseButton, waterButton, saveProgressButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,79 +24,87 @@ public class GoalsActivity extends AppCompatActivity {
 
         prefs = getSharedPreferences("FitPetPrefs", MODE_PRIVATE);
 
-        EditText petNameInput = findViewById(R.id.petNameInput);
-        EditText calorieGoalInput = findViewById(R.id.calorieGoalInput);
-        EditText waterGoalInput = findViewById(R.id.waterGoalInput);
-        EditText sleepGoalInput = findViewById(R.id.sleepGoalInput);
-        Button enterButton = findViewById(R.id.enterButton);
-        Button saveProgressButton = findViewById(R.id.saveProgressButton);
+        EditText petNameInput      = findViewById(R.id.petNameInput);
+        EditText calorieGoalInput  = findViewById(R.id.calorieGoalInput);
+        EditText waterGoalInput    = findViewById(R.id.waterGoalInput);
+        EditText sleepGoalInput    = findViewById(R.id.sleepGoalInput);
+        Button enterButton         = findViewById(R.id.enterButton);
+        saveProgressButton         = findViewById(R.id.saveProgressButton);
 
-        // set current values
+        foodButton     = findViewById(R.id.foodButton);
+        sleepButton    = findViewById(R.id.sleepButton);
+        exerciseButton = findViewById(R.id.exerciseButton);
+        waterButton    = findViewById(R.id.waterButton);
+
+        setBottomButtonsEnabled(isGoalsSet());
+        setSaveProgressEnabled(isGoalsSet());
+
+
         if (Main.getUserGoals() != null) {
             calorieGoalInput.setText(String.valueOf(Main.getUserGoals().getFoodGoalCalories()));
             waterGoalInput.setText(String.valueOf(Main.getUserGoals().getWaterGoalOz()));
             sleepGoalInput.setText(String.valueOf(Main.getUserGoals().getSleepGoalHours()));
         }
-
         if (Main.getPet() != null) {
             String petName = prefs.getString("petName", "Zuzu");
-            if (!petName.isEmpty()) {
-                petNameInput.setText(petName);
-            }
+            if (!petName.isEmpty()) petNameInput.setText(petName);
         }
 
         enterButton.setOnClickListener(v -> {
-            String petName = petNameInput.getText().toString();
-            String calorieStr = calorieGoalInput.getText().toString();
-            String waterStr = waterGoalInput.getText().toString();
-            String sleepStr = sleepGoalInput.getText().toString();
+            String petName   = petNameInput.getText().toString().trim();
+            String calorieStr= calorieGoalInput.getText().toString().trim();
+            String waterStr  = waterGoalInput.getText().toString().trim();
+            String sleepStr  = sleepGoalInput.getText().toString().trim();
+
+            boolean hasError = false;
 
             if (petName.isEmpty()) {
-                petName = "Zuzu";
+                petNameInput.setError("Please enter a pet name");
+                hasError = true;
             }
 
-            int calorieGoal;
-            int waterGoal;
-            int sleepGoal;
-
-            // validate inputs
+            int calorieGoal = 0;
             if (calorieStr.isEmpty()) {
-                Toast.makeText(this, "Please enter calorie goal", Toast.LENGTH_SHORT).show();
-                return;
+                calorieGoalInput.setError("Please enter calorie goal");
+                hasError = true;
             } else {
-                try {
-                    calorieGoal = Integer.parseInt(calorieStr);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Invalid calorie goal", Toast.LENGTH_SHORT).show();
-                    return;
+                try { calorieGoal = Integer.parseInt(calorieStr); }
+                catch (NumberFormatException e) {
+                    calorieGoalInput.setError("Invalid calorie goal");
+                    hasError = true;
                 }
             }
 
+            int waterGoal = 0;
             if (waterStr.isEmpty()) {
-                Toast.makeText(this, "Please enter water goal", Toast.LENGTH_SHORT).show();
-                return;
+                waterGoalInput.setError("Please enter water goal");
+                hasError = true;
             } else {
-                try {
-                    waterGoal = Integer.parseInt(waterStr);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Invalid water goal", Toast.LENGTH_SHORT).show();
-                    return;
+                try { waterGoal = Integer.parseInt(waterStr); }
+                catch (NumberFormatException e) {
+                    waterGoalInput.setError("Invalid water goal");
+                    hasError = true;
                 }
             }
 
+            int sleepGoal = 0;
             if (sleepStr.isEmpty()) {
-                Toast.makeText(this, "Please enter sleep goal", Toast.LENGTH_SHORT).show();
-                return;
+                sleepGoalInput.setError("Please enter sleep goal");
+                hasError = true;
             } else {
-                try {
-                    sleepGoal = Integer.parseInt(sleepStr);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Invalid sleep goal", Toast.LENGTH_SHORT).show();
-                    return;
+                try { sleepGoal = Integer.parseInt(sleepStr); }
+                catch (NumberFormatException e) {
+                    sleepGoalInput.setError("Invalid sleep goal");
+                    hasError = true;
                 }
             }
 
-            int exerciseGoal = 300;
+            if (hasError) {
+                Toast.makeText(this, "Please fix the errors above", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int exerciseGoal = 0;
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("petName", petName);
@@ -106,7 +116,13 @@ public class GoalsActivity extends AppCompatActivity {
 
             Main.initializePet(petName);
             Main.initializeUserGoals(waterGoal, sleepGoal, exerciseGoal, calorieGoal);
+
             Toast.makeText(this, "Goals saved successfully!", Toast.LENGTH_SHORT).show();
+
+
+            setBottomButtonsEnabled(true);
+            setSaveProgressEnabled(true);
+
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -114,13 +130,10 @@ public class GoalsActivity extends AppCompatActivity {
             finish();
         });
 
+
         saveProgressButton.setOnClickListener(v -> {
             try {
                 DayManager.checkAndHandleNewDay(this);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
                 DayManager.saveCurrentDayToFile(this);
                 Toast.makeText(this, "Progress saved successfully!", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
@@ -128,14 +141,57 @@ public class GoalsActivity extends AppCompatActivity {
             }
         });
 
-        Button foodButton = findViewById(R.id.foodButton);
-        Button sleepButton = findViewById(R.id.sleepButton);
-        Button exerciseButton = findViewById(R.id.exerciseButton);
-        Button waterButton = findViewById(R.id.waterButton);
 
         foodButton.setOnClickListener(v -> startActivity(new Intent(this, FoodActivity.class)));
         sleepButton.setOnClickListener(v -> startActivity(new Intent(this, SleepActivity.class)));
         exerciseButton.setOnClickListener(v -> startActivity(new Intent(this, ExerciseActivity.class)));
         waterButton.setOnClickListener(v -> startActivity(new Intent(this, WaterActivity.class)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setBottomButtonsEnabled(isGoalsSet());
+        setSaveProgressEnabled(isGoalsSet());
+    }
+
+    private void setBottomButtonsEnabled(boolean enabled) {
+        foodButton.setEnabled(enabled);
+        sleepButton.setEnabled(enabled);
+        exerciseButton.setEnabled(enabled);
+        waterButton.setEnabled(enabled);
+
+
+        float alpha;
+        if(enabled){
+            alpha = 1f;
+        } else {
+            alpha = 0.6f;
+        }
+        foodButton.setAlpha(alpha);
+        sleepButton.setAlpha(alpha);
+        exerciseButton.setAlpha(alpha);
+        waterButton.setAlpha(alpha);
+
+    }
+
+    private void setSaveProgressEnabled(boolean enabled) {
+        saveProgressButton.setEnabled(enabled);
+
+        float alpha;
+        if(enabled){
+            alpha = 1f;
+        } else {
+            alpha = 0.6f;
+        }
+        saveProgressButton.setAlpha(alpha);
+    }
+
+    private boolean isGoalsSet() {
+        String pet  = prefs.getString("petName", "");
+        int cal     = prefs.getInt("calorieGoal", 0);
+        int water   = prefs.getInt("waterGoal", 0);
+        int sleep   = prefs.getInt("sleepGoal", 0);
+        return !pet.isEmpty() && cal > 0 && water > 0 && sleep > 0;
     }
 }
