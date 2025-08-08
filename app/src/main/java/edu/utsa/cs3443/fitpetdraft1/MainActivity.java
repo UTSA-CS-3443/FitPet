@@ -3,18 +3,18 @@ package edu.utsa.cs3443.fitpetdraft1;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.IOException;
-
 
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
+
     private TextView petNameText;
+    private TextView goalsSummaryText;
+
     private Button exerciseButton, foodButton, sleepButton, waterButton, settingsButton;
 
     @Override
@@ -25,30 +25,35 @@ public class MainActivity extends AppCompatActivity {
         prefs = getSharedPreferences("FitPetPrefs", MODE_PRIVATE);
         initializeViews();
 
-
         if (!areGoalsSet()) {
-            Intent intent = new Intent(this, GoalsActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, GoalsActivity.class));
             finish();
-        } else {
-            loadGoals();
-            try {
-                checkForNewDay();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            setupClickListeners();
+            return;
         }
+
+        loadGoals();
+        try {
+            checkForNewDay();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        setupClickListeners();
+
+        if (Main.getPet() != null) {
+            petNameText.setText(Main.getPet().toString());
+        }
+        updateGoalsSummary();
     }
 
     private void initializeViews() {
-        petNameText = findViewById(R.id.petNameText);
-        exerciseButton = findViewById(R.id.exerciseButton);
-        foodButton = findViewById(R.id.foodButton);
-        waterButton = findViewById(R.id.waterButton);
-        sleepButton = findViewById(R.id.sleepButton);
-        settingsButton = findViewById(R.id.settingsButton);
+        petNameText      = findViewById(R.id.petNameText);
+        goalsSummaryText = findViewById(R.id.goalsSummaryText); // NEW
 
+        exerciseButton = findViewById(R.id.exerciseButton);
+        foodButton     = findViewById(R.id.foodButton);
+        waterButton    = findViewById(R.id.waterButton);
+        sleepButton    = findViewById(R.id.sleepButton);
+        settingsButton = findViewById(R.id.settingsButton);
     }
 
     private boolean areGoalsSet() {
@@ -56,18 +61,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadGoals() {
-        String petName = prefs.getString("petName", "Zuzu");
-        int calorieGoal = prefs.getInt("calorieGoal", 2000);
-        int waterGoal = prefs.getInt("waterGoal", 64);
-        int sleepGoal = prefs.getInt("sleepGoal", 8);
-        int exerciseGoal = prefs.getInt("exerciseGoal", 500);
+        String petName     = prefs.getString("petName", "Zuzu");
+        int calorieGoal    = prefs.getInt("calorieGoal", 2000);
+        int waterGoal      = prefs.getInt("waterGoal", 64);
+        int sleepGoal      = prefs.getInt("sleepGoal", 8);
+        int exerciseGoal   = prefs.getInt("exerciseGoal", 300);
 
         Main.initializeUserGoals(waterGoal, sleepGoal, exerciseGoal, calorieGoal);
         Main.initializePet(petName);
-
-        if (petNameText != null) {
-            petNameText.setText(petName);
-        }
     }
 
     private void checkForNewDay() throws IOException {
@@ -75,45 +76,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        exerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ExerciseActivity.class);
-                startActivity(intent);
-            }
-        });
+        exerciseButton.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ExerciseActivity.class)));
+        foodButton.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, FoodActivity.class)));
+        waterButton.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, WaterActivity.class)));
+        sleepButton.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, SleepActivity.class)));
+        settingsButton.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, GoalsActivity.class)));
+    }
 
-        foodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FoodActivity.class);
-                startActivity(intent);
+    private void updateGoalsSummary() {
+        UserGoals g = Main.getUserGoals();
+        if (g == null) {
+            if (goalsSummaryText != null) {
+                goalsSummaryText.setText("Set your goals to get started.");
             }
-        });
+            return;
+        }
 
-        waterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, WaterActivity.class);
-                startActivity(intent);
-            }
-        });
+        int eaten    = Main.getTotalCaloriesToday();
+        int burned   = Main.getTotalExerciseToday();
+        int calGoal  = g.getFoodGoalCalories();
+        int calLeft  = calGoal + burned - eaten;
 
-        sleepButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SleepActivity.class);
-                startActivity(intent);
-            }
-        });
+        int water     = Main.getTotalWaterToday();
+        int waterGoal = g.getWaterGoalOz();
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GoalsActivity.class);
-                startActivity(intent);
-            }
-        });
+        int sleep     = Main.getTotalSleepToday();
+        int sleepGoal = g.getSleepGoalHours();
+
+        String summary = "Calories: " + eaten + " / " + calGoal + " (Left: " + calLeft + ")\n" +
+                "Water: " + water + " / " + waterGoal + " oz\n" +
+                "Sleep: " + sleep + " / " + sleepGoal + " hrs";
+
+        if (goalsSummaryText != null) {
+            goalsSummaryText.setText(summary);
+        }
     }
 
     @Override
@@ -125,10 +126,10 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-
-        if (Main.getPet() != null && petNameText != null) {
-            petNameText.setText(Main.getPet().toString());
+            if (Main.getPet() != null) {
+                petNameText.setText(Main.getPet().toString());
+            }
+            updateGoalsSummary();
         }
     }
 }
