@@ -10,10 +10,6 @@ The language used to write this app is **Java** with **XML** for Android layouts
 ## **Video Demonstration**
 [FitPet Demo Video](https://drive.google.com/file/d/1reRHDCmxa8x4iSiomtjS7YasO9vgiE9w/view?usp=sharing)
 
-## **UML Diagram**
-<img width="2161" height="1661" alt="FinalUML drawio" src="https://github.com/user-attachments/assets/f4d84b87-ea11-4804-b0a5-8daab9f2891b" />
-
-
 ## **Tech Used**
 We used **Android Studio** to code the app, **GitHub** for version control, and **XML** for designing the user interface layouts. The app utilizes **SharedPreferences** for storing user goals and settings, and **file I/O** for saving daily progress summaries.
 
@@ -59,4 +55,5 @@ The app automatically saves your daily progress to text files for record keeping
 
 ## **Credits**
 Micheal DeWitt, Bella Rodriguez, Sofia Galindo, Jose Ramos-Rodriguez
+
 

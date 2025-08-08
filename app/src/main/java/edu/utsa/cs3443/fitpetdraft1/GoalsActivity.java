@@ -8,11 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 
 import java.io.IOException;
-
-import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Goals activity to save user goals. Prompts user to set goals before accessing other features.
@@ -58,12 +55,8 @@ public class GoalsActivity extends AppCompatActivity {
         exerciseButton = findViewById(R.id.exerciseButton);
         waterButton    = findViewById(R.id.waterButton);
 
-        GifImageView peak = findViewById(R.id.dogPeak);
-
         setBottomButtonsEnabled(isGoalsSet());
         setSaveProgressEnabled(isGoalsSet());
-
-        ViewCompat.setZ(peak, 10f);
 
         // Population
         if (Main.getUserGoals() != null) {

@@ -71,7 +71,7 @@
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="20sp" />
 
-            <pl.droidsonroids.gif.GifImageView
+            <ImageView
                 android:id="@+id/dogImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
